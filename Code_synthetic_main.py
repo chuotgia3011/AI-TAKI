@@ -2,23 +2,24 @@
 from moviepy.editor import VideoFileClip, concatenate_videoclips, TextClip, CompositeVideoClip, AudioFileClip
 import tempfile
 import os
-from creat_video_from_url import create_video_from_list , get_audio_duration
+import uuid
+from MergeVideo.creat_video_from_url import create_video_from_list , get_audio_duration
 # from creat_video_from_list import create_video_from_list , get_audio_duration
 
-from Main_code import main_code
-from download_file_from_google_drive import download_file_from_google_drive
+from main_media import main_code
+from Analyze.download_file_from_google_drive import download_file_from_google_drive
 
 def merge_videos(video_list, text, audio_file , output_video ):
     # Ví dụ sử dụng:
     # video_list = [video1, video2, video3]
-    audio_file = audio_file # 60 
+
     target_duration = get_audio_duration(audio_file)  # Thời lượng mục tiêu là 30 giây
-    output_video_1 = "output_final_video_openai_gradio.mp4"
+    # output_video_1 = "output_final_video_openai_gradio.mp4"
+    output_video_1 = "%s.mp4" % str(uuid.uuid4())
     final_video = create_video_from_list(video_list, target_duration, output_video_1)
-    audio_file = audio_file 
-    text = text
-    print ( "done --------:" , final_video)
     main_code(output_video_1 , output_video , text , audio_file)
+    if os.path.isfile(output_video_1):
+         os.remove(output_video_1)
     return output_video
 
 

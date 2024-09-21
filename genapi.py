@@ -4,14 +4,15 @@ import uuid
 from fastapi import FastAPI
 import uvicorn
 import requests
-from Code_synthetic_main import merge_videos
+from code_synthetic_main import merge_videos
 from pydantic import BaseModel
-from download_file_from_google_drive import download_file_from_google_drive
+from Analyze.download_file_from_google_drive import download_file_from_google_drive
 
 # Tạo một ứng dụng FastAPI
 app = FastAPI()
 
-output_dir = '/opt/cdn/cdn.aiauto.io/videos/'
+# output_dir = '/opt/cdn/cdn.aiauto.io/videos/'
+output_dir = 'ResultVideo/'
 cdn_base_name = 'https://cdn.aiauto.io/videos/'
 # # Định nghĩa route đơn giản in ra "Hello, World!"
 # @app.post("/")
@@ -52,13 +53,17 @@ def process_data(input_data: InputData):
         print("Background music:", music)
         print("Content:", content)
         # output = "output_final_video_test_with_gradio"
-        audio_file = f"{file_name}.mp3"
+        # audio_file = f"{file_name}.mp3"
+        audio_file = "%s.mp3" % str(uuid.uuid4())
         output_file_name = "%s.mp4" % str(uuid.uuid4())
         output_video = os.path.join(output_dir, output_file_name)
+        
 
         download_file_from_google_drive(music, audio_file)
 
         merge_videos(backgrounds, content, audio_file, output_video)
+        if os.path.isfile(audio_file):
+            os.remove(audio_file)
 
         # Trả về phản hồi
         return {
