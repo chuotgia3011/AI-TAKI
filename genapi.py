@@ -11,8 +11,8 @@ from Analyze.download_file_from_google_drive import download_file_from_google_dr
 # Tạo một ứng dụng FastAPI
 app = FastAPI()
 
-# output_dir = '/opt/cdn/cdn.aiauto.io/videos/'
-output_dir = 'ResultVideo/'
+output_dir = '/opt/cdn/cdn.aiauto.io/videos/'
+# output_dir = 'ResultVideo/'
 cdn_base_name = 'https://cdn.aiauto.io/videos/'
 # # Định nghĩa route đơn giản in ra "Hello, World!"
 # @app.post("/")
